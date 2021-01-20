@@ -1,0 +1,106 @@
+<!-- <!DOCTYPE html> -->
+<!-- <html lang="en" dir="ltr"> -->
+
+
+<!DOCTYPE html PUBLIC "-//W3C/DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd:">
+<!-- <!DOCTYPE HTML PUBLIC "-//W3C/DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd:"> -->
+
+<html>
+
+<head>
+
+  <meta charset="utf-8">
+  <title>Ajax Demonstration</title>
+  <style media="screen">
+    .displaybox {
+      width: 150px;
+      background-color: #ffffff;
+      border: 2px solid #00000;
+      padding: 10px;
+      font: 24px normal verdana, helvetica, arial, sans-serif;
+    }
+  </style>
+
+
+  <!-- <script type="text/javascript" language="JavaScript" scr="ajax.js"> -->
+  <script type="text/javascript" language="JavaScript" >
+
+//     function getXMLHTTPRequest() {
+//       var req = false;
+//       try {
+//         req = new XMLHttpRequest() /*ex Firefox*/
+// // req=new XMLHttpRequest;
+//       } catch (err1) {
+//         try {
+//           req = new ActiveXObject("Msxm12.XMLHTTP"); /*some versions of IE*/
+//         } catch (err1) {
+//           try {
+//             req = new ActiveXObject("Microsoft.XMLHTTP"); /*some versions of IE*/
+//           } catch (err3) {
+//             // alert("nothing worked")
+//             req = false;
+//           }
+//         }
+//       }
+//       return req;
+//     }
+
+    // var http = getXMLHTTPRequest();
+//think don't have to do above because now built in always below
+    var http = new XMLHttpRequest();
+
+    function getServerTime() {
+      var myurl = 'telltimeXML.php';
+      myRand = parseInt(Math.random() * 999999);
+      var modurl = myurl + "?rand=" + myRand;
+      // http.open("GET", modurl, true);
+      http.open("GET",'https://api.github.com/users', true);
+      // http.open("GET", myurl, true);
+      http.onreadystatechange = useHttpResponse();
+      // http.send(null);
+      http.send();
+    }
+
+    function useHttpResponse() {
+      if (http.readystate == 4) {
+        if (http.status == 200) {
+            var timeValue = http.responseXML.getElementsByTagName("timenow")[0];
+            document.getElementById('showtime').innerHTML = timevalue.childNodes[0].nodeValue;
+          }
+        }
+        else {
+          // alert("cant find")
+          // document.getElementByID('showtime').innerHTML = '<img src="anim.gif">';
+          // document.getElementById('showtime').innerHTML = '<img src="one.jpg">';
+//ends up not successfully getting the request  below shows status as 0 abd readystate=undefined
+          stts=http.status
+          rdy=http.readystate
+          document.getElementById('showtime').innerHTML ="Status = " + stts + " Ready State = " + rdy;
+            }
+      }
+
+
+  </script>
+
+
+
+</head>
+
+<!-- <body style="background-color:#cccccc text-align: center"> -->
+
+<!-- <body style="text-align:center" OnLoad="getServerTime()"> -->
+<body style="text-align:center" onload="getServerTime()">
+
+  <h1>Ajax Demonstration</h1>
+  <h2>Getting the server time without page refresh</h2>
+  <form class="" action="index.html" method="post">
+    <input type="button" name="" value="get Server Time" OnClick="getServerTime()"><br>
+    <!-- <input type="text" name="" value=""> -->
+  </form>
+  <div class="displaybox" id="showtime"></div>
+
+</body>
+
+</html>
